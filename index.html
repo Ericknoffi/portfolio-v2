@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ashok | 3D Portfolio</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#00fff2',secondary:'#ff00f7'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+  background-color: #000000; /* pure black */
+  font-family: 'Rajdhani', sans-serif;
+  color: #e5e7eb;
+  overflow-x: hidden;
+}
+.orbitron {
+font-family: 'Orbitron', sans-serif;
+}
+.neon-text {
+  color: #b99bff; /* light purple text */
+
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.45),
+    0 0 10px rgba(255, 255, 255, 0.3),
+    0 0 18px rgba(255, 255, 255, 0.2);
+}
+.neon-text-black {
+  color: #000; /* inner text black */
+
+  /* crisp outline */
+  -webkit-text-stroke: 1.2px #b99bff;
+
+  /* neon purple glow */
+  text-shadow:
+    0 0 6px rgba(185, 155, 255, 0.9),
+    0 0 14px rgba(185, 155, 255, 0.7),
+    0 0 28px rgba(185, 155, 255, 0.45);
+}
+
+.neon-text-white {
+  color: #fffeff; /* black core text */
+
+  text-shadow:
+    0 0 8px  rgba(255, 255, 255, 0.95),
+    0 0 18px rgba(255, 255, 255, 0.75),
+    0 0 36px rgba(255, 255, 255, 0.5),
+    0 0 64px rgba(255, 255, 255, 0.35);
+}
+
+.neon-text-yellow {
+text-shadow: 0 0 5px rgba(250, 255, 0, 0.5),
+0 0 10px rgba(250, 255, 0, 0.3),
+0 0 15px rgba(250, 255, 0, 0.2);
+}
+.neon-border-white {
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.7),
+    0 0 14px rgba(255, 255, 255, 0.45),
+    0 0 26px rgba(255, 255, 255, 0.25);
+}
+.neon-border-yellow {
+box-shadow: 0 0 5px rgba(250, 255, 0, 0.5),
+0 0 10px rgba(250, 255, 0, 0.3);
+}
+.glass {
+background: rgba(10, 10, 20, 0.25);
+backdrop-filter: blur(8px);
+-webkit-backdrop-filter: blur(8px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.hero-bg {
+  background: transparent !important;
+}
+.hero-bg::before {
+  content: none;
+}
+.grid-lines {
+background-size: 75px 75px;
+background-image:
+linear-gradient(to right, rgba(185, 155, 255, 0.089) 1px, transparent 1px),
+linear-gradient(to bottom, rgba(185, 155, 255, 0.121) 1px, transparent 1px);
+}
+.project-card {
+transition: transform 0.5s ease, box-shadow 0.5s ease;
+transform-style: preserve-3d;
+perspective: 1000px;
+}
+.project-card:hover {
+transform: translateY(-10px) rotateY(5deg);
+}
+.custom-cursor {
+width: 20px;
+height: 20px;
+border-radius: 50%;
+background-color: rgba(0, 255, 242, 0.5);
+position: fixed;
+pointer-events: none;
+mix-blend-mode: screen;
+z-index: 9999;
+transform: translate(-50%, -50%);
+transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+.cursor-trail {
+width: 10px;
+height: 10px;
+border-radius: 50%;
+background-color: rgba(255, 0, 247, 0.3);
+position: fixed;
+pointer-events: none;
+z-index: 9998;
+mix-blend-mode: screen;
+transform: translate(-50%, -50%);
+}
+input, textarea {
+background: rgba(10, 10, 20, 0.3);
+border: 1px solid rgba(0, 255, 242, 0.3);
+color: white;
+transition: all 0.3s ease;
+}
+input:focus, textarea:focus {
+border-color: #00fff2;
+box-shadow: 0 0 10px rgba(0, 255, 242, 0.5);
+outline: none;
+}
+.skill-badge {
+transition: all 0.3s ease;
+}
+.skill-badge:hover {
+transform: translateY(-5px) scale(1.05);
+}
+.progress-bar {
+height: 8px;
+background: rgba(255, 255, 255, 0.1);
+border-radius: 4px;
+overflow: hidden;
+}
+.progress-fill {
+height: 100%;
+border-radius: 4px;
+transition: width 1s ease;
+}
+.social-icon {
+transition: all 0.3s ease;
+}
+.social-icon:hover {
+transform: translateY(-5px) scale(1.2);
+}
+.particle {
+position: absolute;
+border-radius: 50%;
+pointer-events: none;
+background-color: rgba(0, 255, 242, 0.7);
+animation: particle-animation 2s ease-out forwards;
+}
+@keyframes particle-animation {
+0% {
+transform: scale(0);
+opacity: 1;
+}
+100% {
+transform: scale(1);
+opacity: 0;
+}
+}
+.hamburger {
+width: 30px;
+height: 20px;
+position: relative;
+cursor: pointer;
+}
+.hamburger span {
+display: block;
+position: absolute;
+height: 2px;
+width: 100%;
+background: #b191fc;
+border-radius: 9px;
+opacity: 0.65;
+left: 0;
+transform: rotate(0deg);
+transition: .25s ease-in-out;
+  box-shadow:
+    0 0 4px rgba(255, 255, 255, 0.6),
+    0 0 10px rgba(255, 255, 255, 0.4);
+}
+.hamburger span:nth-child(1) {
+top: 0px;
+}
+.hamburger span:nth-child(2) {
+top: 9px;
+}
+.hamburger span:nth-child(3) {
+top: 18px;
+}
+.hamburger.open span:nth-child(1) {
+top: 9px;
+transform: rotate(135deg);
+}
+.hamburger.open span:nth-child(2) {
+opacity: 0;
+left: -60px;
+}
+.hamburger.open span:nth-child(3) {
+top: 9px;
+transform: rotate(-135deg);
+}
+#canvas-container {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1;
+}
+.floating {
+animation: floating 3s ease-in-out infinite;
+}
+@keyframes floating {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-15px); }
+100% { transform: translateY(0px); }
+}
+.rotate-3d {
+animation: rotate3d 15s linear infinite;
+transform-style: preserve-3d;
+}
+@keyframes rotate3d {
+0% { transform: rotateY(0deg); }
+100% { transform: rotateY(360deg); }
+}
+.glow-on-hover:hover {
+box-shadow: 0 0 15px rgba(0, 255, 242, 0.7);
+}
+/* Neon medium purple buttons */
+.btn-purple {
+  background: #9f7aea;
+  color: #0a0a0a;
+  font-weight: 700;
+
+  box-shadow:
+    0 0 10px rgba(159, 122, 234, 0.45),
+    0 0 22px rgba(159, 122, 234, 0.25);
+
+  transition: all 0.3s ease;
+}
+.btn-purple:hover {
+  box-shadow:
+    0 0 14px rgba(159, 122, 234, 0.6),
+    0 0 30px rgba(159, 122, 234, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Outline version */
+.btn-purple-outline {
+  background: transparent;
+  color: #c4b5fd;
+  border: 2px solid rgba(159, 122, 234, 0.6);
+
+  box-shadow:
+    0 0 8px rgba(159, 122, 234, 0.25);
+
+  transition: all 0.3s ease;
+}
+
+.btn-purple-outline:hover {
+  background: rgba(159, 122, 234, 0.12);
+  box-shadow:
+    0 0 14px rgba(159, 122, 234, 0.5),
+    0 0 28px rgba(159, 122, 234, 0.3);
+  transform: translateY(-2px);
+}
+/* === Projects section base background === */
+#projects::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.glass-purple {
+  background: rgba(185, 155, 255, 0.18); /* purple glass */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(185, 155, 255, 0.35);
+
+  color: #e9e5ff; /* soft white-purple icon */
+
+  box-shadow:
+    inset 0 0 18px rgba(185, 155, 255, 0.25),
+    0 0 14px rgba(185, 155, 255, 0.35);
+
+  transition: all 0.3s ease;
+}
+
+.glass-purple:hover {
+  background: rgba(185, 155, 255, 0.28);
+
+  box-shadow:
+    inset 0 0 22px rgba(185, 155, 255, 0.35),
+    0 0 22px rgba(185, 155, 255, 0.55);
+
+  transform: translateY(-4px) scale(1.08);
+}
+/* Progress track */
+</style>
+</head>
+<body class="text-white">
+<div class="custom-cursor"></div>
+<!-- Navigation -->
+<nav class="fixed top-0 left-0 w-full z-50 glass py-4 px-6">
+<div class="container mx-auto flex justify-between items-center">
+<a href="#" class="text-2xl font-['Pacifico'] neon-text">Ashok</a>
+<div class="hidden md:flex space-x-8">
+<a href="#home" class="orbitron text-white hover:text-primary transition-colors duration-300">Home</a>
+<a href="#projects" class="orbitron text-white hover:text-primary transition-colors duration-300">Projects</a>
+<a href="#skills" class="orbitron text-white hover:text-primary transition-colors duration-300">Skills</a>
+<a href="#about" class="orbitron text-white hover:text-primary transition-colors duration-300">About</a>
+<a href="#contact" class="orbitron text-white hover:text-primary transition-colors duration-300">Contact</a>
+</div>
+<div class="md:hidden hamburger neon-text" id="hamburger">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+<div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full glass py-4 px-6">
+<div class="flex flex-col space-y-4">
+<a href="#home" class="orbitron text-white hover:text-primary transition-colors duration-300">Home</a>
+<a href="#projects" class="orbitron text-white hover:text-primary transition-colors duration-300">Projects</a>
+<a href="#skills" class="orbitron text-white hover:text-primary transition-colors duration-300">Skills</a>
+<a href="#about" class="orbitron text-white hover:text-primary transition-colors duration-300">About</a>
+<a href="#contact" class="orbitron text-white hover:text-primary transition-colors duration-300">Contact</a>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section id="home" class="hero-bg grid-lines min-h-screen flex items-center justify-center relative">
+<div id="canvas-container"></div>
+<div class="container mx-auto px-6 py-24 z-10">
+<div class="flex flex-col md:flex-row items-center justify-between">
+<div class="md:w-1/2 text-center md:text-left mb-12 md:mb-0">
+<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold orbitron mb-4">
+<span class="block">Hi, I'm</span>
+<span class="neon-text-strong neon-text floating inline-block">Ashokraj</span>
+</h1>
+<h2 class="text-2xl md:text-3xl lg:text-4xl orbitron mb-6">
+<span class="neon-text-white">Junior Developer</span>
+</h2>
+<p class="text-lg md:text-xl mb-8 max-w-lg opacity-80">
+Exploring the world of technology, one line of code at a time.
+</p>
+<div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
+  <a href="#projects"
+     class="px-8 py-3 orbitron font-bold rounded-button whitespace-nowrap btn-purple">
+    View Projects
+  </a>
+
+  <a href="#contact"
+     class="px-8 py-3 orbitron font-bold rounded-button whitespace-nowrap btn-purple-outline">
+    Contact Me
+  </a>
+</div>
+</div>
+<div class="md:w-1/2 relative">
+<div class="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto relative">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-3xl"></div>
+<div class="hologram-container w-full h-full relative">
+<div class="hologram-sphere">
+<div class="sphere-core"></div>
+<div class="sphere-layer layer-1"></div>
+<div class="sphere-layer layer-2"></div>
+<div class="sphere-layer layer-3"></div>
+<div class="data-points">
+<div class="data-point p1"></div>
+<div class="data-point p2"></div>
+<div class="data-point p3"></div>
+<div class="data-point p4"></div>
+<div class="data-point p5"></div>
+<div class="data-point p6"></div>
+</div>
+<div class="orbit-rings">
+<div class="orbit-ring ring-1"></div>
+<div class="orbit-ring ring-2"></div>
+<div class="orbit-ring ring-3"></div>
+</div>
+<div class="floating-elements">
+<div class="floating-element binary e1">01001010</div>
+<div class="floating-element binary e2">10110101</div>
+<div class="floating-element network e3"><i class="ri-wifi-line"></i></div>
+<div class="floating-element network e4"><i class="ri-cloud-line"></i></div>
+<div class="floating-element binary e5">11000101</div>
+<div class="floating-element network e6"><i class="ri-database-2-line"></i></div>
+<style>
+.floating-elements {
+position: absolute;
+width: 100%;
+height: 100%;
+transform-style: preserve-3d;
+}
+.floating-element {
+position: absolute;
+color: rgba(43, 0, 255, 0.8);
+font-family: 'Courier New', monospace;
+font-size: 0.8rem;
+font-weight: bold;
+text-shadow: 0 0 10px rgba(0, 255, 242, 0.5);
+animation: floatElement 8s ease-in-out infinite;
+}
+.floating-element.binary {
+font-size: 0.7rem;
+letter-spacing: 1px;
+}
+.floating-element.network {
+font-size: 1.2rem;
+}
+.floating-element.e1 { top: 15%; left: 15%; animation-delay: 0s; }
+.floating-element.e2 { top: 75%; left: 75%; animation-delay: 1s; }
+.floating-element.e3 { top: 25%; left: 75%; animation-delay: 2s; }
+.floating-element.e4 { top: 65%; left: 25%; animation-delay: 3s; }
+.floating-element.e5 { top: 45%; left: 85%; animation-delay: 4s; }
+.floating-element.e6 { top: 85%; left: 45%; animation-delay: 5s; }
+</style>
+</div>
+</div>
+</div>
+<style>
+.hologram-container {
+perspective: 1000px;
+transform-style: preserve-3d;
+}
+.hologram-sphere {
+position: relative;
+width: 100%;
+height: 100%;
+transform-style: preserve-3d;
+animation: floatAnimation 6s ease-in-out infinite;
+}
+.sphere-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(185, 155, 255, 0.35),
+    rgba(185, 155, 255, 0.08),
+    transparent 70%
+  );
+
+  box-shadow:
+    0 0 25px rgba(185, 155, 255, 0.35),
+    0 0 50px rgba(185, 155, 255, 0.2);
+
+  animation: pulseCore 4s ease-in-out infinite;
+}
+
+.sphere-layer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+
+  border: 1.5px solid rgba(185, 155, 255, 0.35);
+  box-shadow: 0 0 12px rgba(185, 155, 255, 0.25);
+}
+
+.layer-1 {
+width: 60%;
+height: 60%;
+animation: rotateSphere 10s linear infinite;
+}
+.layer-2 {
+width: 80%;
+height: 80%;
+animation: rotateSphere 15s linear infinite reverse;
+}
+.layer-3 {
+width: 100%;
+height: 100%;
+animation: rotateSphere 20s linear infinite;
+}
+.data-point {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+
+  background: rgba(185, 155, 255, 0.9);
+  box-shadow: 0 0 10px rgba(185, 155, 255, 0.6);
+}
+
+.data-points {
+position: absolute;
+width: 100%;
+height: 100%;
+animation: rotatePoints 15s linear infinite;
+}
+.orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+
+  border: 1px solid rgba(185, 155, 255, 0.3);
+  box-shadow: 0 0 10px rgba(185, 155, 255, 0.2);
+}
+
+.floating-elements {
+position: absolute;
+width: 100%;
+height: 100%;
+transform-style: preserve-3d;
+}
+.floating-element {
+  color: rgba(233, 231, 237, 0.838);
+  text-shadow:
+    0 0 6px rgba(173, 140, 248, 0.222);
+}
+
+@keyframes pulseCore {
+0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
+50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
+}
+@keyframes rotateSphere {
+0% { transform: translate(-50%, -50%) rotate3d(1, 1, 1, 0deg); }
+100% { transform: translate(-50%, -50%) rotate3d(1, 1, 1, 360deg); }
+}
+@keyframes rotatePoints {
+0% { transform: rotateY(0deg) rotateX(0deg); }
+100% { transform: rotateY(360deg) rotateX(360deg); }
+}
+@keyframes floatElement {
+0%, 100% { transform: translateY(0) translateZ(0); opacity: 0.8; }
+50% { transform: translateY(-20px) translateZ(20px); opacity: 1; }
+}
+.data-point:nth-child(1) { top: 20%; left: 20%; }
+.data-point:nth-child(2) { top: 80%; left: 80%; }
+.data-point:nth-child(3) { top: 20%; left: 80%; }
+.data-point:nth-child(4) { top: 80%; left: 20%; }
+.data-point:nth-child(5) { top: 50%; left: 10%; }
+.data-point:nth-child(6) { top: 50%; left: 90%; }
+.floating-element:nth-child(1) { top: 20%; left: 20%; }
+.floating-element:nth-child(2) { top: 70%; left: 70%; }
+.floating-element:nth-child(3) { top: 30%; left: 70%; }
+.floating-element:nth-child(4) { top: 60%; left: 30%; }
+.orbit-ring.ring-1 { width: 70%; height: 70%; }
+.orbit-ring.ring-2 { width: 85%; height: 85%; }
+.orbit-ring.ring-3 { width: 100%; height: 100%; }
+</style>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+<div class="w-8 h-12 flex items-center justify-center border-2 border-white rounded-full">
+<div class="w-1 h-3 bg-white rounded-full"></div>
+</div>
+<p class="text-center mt-2 text-sm -ml-3.5">Scroll Down</p>
+</div>
+</section>
+<!-- Projects Section -->
+<section id="projects" class="py-24 relative overflow-hidden grid-lines">
+<div class="absolute inset-0"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold orbitron mb-4">
+<span class=" neon-text">My</span> Projects
+</h2>
+<p class="max-w-2xl mx-auto text-lg opacity-80">
+Explore my latest work showcasing innovative solutions
+</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<!-- Project 1 -->
+<div class="project-card glass rounded-lg overflow-hidden hover-scale hover-glow animate-fadeInUp">
+<div class="h-56 relative overflow-hidden">
+<img
+  src="https://t4.ftcdn.net/jpg/17/68/48/35/240_F_1768483583_VVr9dlr9BB25OnwJIIwMBpsJ4FZj7x3p.jpg"
+  class="absolute inset-0 w-full h-full object-cover opacity-60"
+/>
+<div class="w-full h-full relative z-10"></div>
+</div>
+<div class="p-6">
+<h3 class="text-2xl font-bold orbitron mb-2 neon-text-white">Visualizer</h3>
+<p class="mb-4 opacity-80">
+Visualizer is an educational, demo-driven web app that turns complex networking concepts and playful animations into interactive experiences.
+</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 text-xs rounded-full bg-primary/20 text-primary">POSTCSS</span>
+<span class="px-3 py-1 text-xs rounded-full bg-secondary/20 text-secondary">TAILWINDCSS</span>
+<span class="px-3 py-1 text-xs rounded-full bg-[#faff00]/20 text-[#faff00]">NEXTJS</span>
+<span class="px-3 py-1 text-xs rounded-full bg-primary/20 text-primary">REACTJS</span>
+</div>
+<a href="https://github.com/Ericknoffi/Visualizer" target="_blank" class="inline-flex items-center text-primary hover:underline">
+View Project <i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="project-card glass rounded-lg overflow-hidden hover-scale hover-glow animate-fadeInUp">
+<div class="h-56 relative overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=modern%20chat%20interface%20with%20holographic%20elements%2C%20floating%20message%20bubbles%2C%20and%20AI%20assistant%20interface%2C%20futuristic%20design%20with%20neon%20pink%20and%20cyan%20accents%2C%20clean%20minimalist%20layout&width=800&height=400&seq=2&orientation=landscape" alt="Chat Interface" class="absolute inset-0 w-full h-full object-cover object-top opacity-50">
+<div class="absolute inset-0 "></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-4/5 h-4/5 glass rounded-lg p-4 flex flex-col">
+<div class="flex items-center mb-3">
+<div class="w-3 h-3 rounded-full bg-[#ff5f57] mr-2"></div>
+<div class="w-3 h-3 rounded-full bg-[#ffbd2e] mr-2"></div>
+<div class="w-3 h-3 rounded-full bg-[#28ca41]"></div>
+<div class="ml-auto text-xs opacity-70">Cyber Ai</div>
+</div>
+<div class="flex-1 glass rounded-md p-2 overflow-hidden">
+<div class="flex flex-col space-y-2">
+<div class="self-start max-w-[70%] bg-gray-700/50 p-2 rounded-lg">
+<p class="text-xs">Hello! What can i do for you !</p>
+</div>
+<div class="self-end max-w-[70%] bg-primary/30 p-2 rounded-lg">
+<p class="text-xs">I need you to help me with my Website's Security</p>
+</div>
+<div class="self-start max-w-[70%] bg-gray-700/50 p-2 rounded-lg">
+<p class="text-xs">Sure! Just fetch me your website URL and i will do the rest...</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-2xl font-bold orbitron mb-2 neon-text-white">CyberScan</h3>
+<p class="mb-4 opacity-80">
+Modern web-based security scanner for automated vulnerability assessment with various different scan optionss.
+</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 text-xs rounded-full bg-primary/20 text-primary">PYTHON</span>
+<span class="px-3 py-1 text-xs rounded-full bg-secondary/20 text-secondary">HTML</span>
+<span class="px-3 py-1 text-xs rounded-full bg-[#faff00]/20 text-[#faff00]">NMAP</span>
+<span class="px-3 py-1 text-xs rounded-full bg-primary/20 text-primary">CSS</span>
+</div>
+<a href="https://github.com/Ericknoffi/CyberScan" target="_blank" class="inline-flex items-center text-secondary hover:underline">
+View Project <i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="project-card glass rounded-lg overflow-hidden hover-scale hover-glow animate-fadeInUp">
+<div class="h-56 relative overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=network%20security%20visualization%20with%20connected%20nodes%2C%20data%20streams%2C%20and%20cybersecurity%20elements%2C%20digital%20grid%20pattern%20with%20yellow%20and%20cyan%20neon%20lights%2C%20high-tech%20security%20interface&width=800&height=400&seq=3&orientation=landscape" alt="Network Analysis" class="absolute inset-0 w-full h-full object-cover object-top opacity-50">
+<div class="absolute inset-0 "></div>
+<div class="w-full h-full relative z-10"></div>
+</div>
+<div class="p-6">
+<h3 class="text-2xl font-bold orbitron mb-2 neon-text-white">Genos Ai</h3>
+<p class="mb-4 opacity-80">
+A Python-based voice-activated personal assistant that can perform various tasks through voice commands, including web searches, opening/closing applications, and providing information.
+</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 text-xs rounded-full bg-primary/20 text-primary">PYTHON</span>
+</div>
+<a href="https://github.com/Ericknoffi/Genos_Ai" target="_blank" class="inline-flex items-center text-[#faff00] hover:underline">
+View Project <i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+<!-- Project 4 -->
+<div class="project-card glass rounded-lg overflow-hidden hover-scale hover-glow animate-fadeInUp">
+<div class="h-56 relative overflow-hidden">
+<img src="https://imgs.search.brave.com/x2UrQs8b-ZXZIxoAjdSc8qnHrXgnAjw70BWL2iUZhFw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzE1LzIwLzc0LzE5/LzM2MF9GXzE1MjA3/NDE5ODhfajg4OTVY/WnZVYW9IOG1LTTM0/cGhUUG9GQk1Ma1lU/Y0QuanBn" alt="3D Portfolio" class="absolute inset-0 w-full h-full object-cover object-top opacity-50">
+<div class="absolute inset-0"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-4/5 h-4/5 relative">
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg transform rotate-3 scale-105"></div>
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-secondary/10 to-[#faff00]/10 rounded-lg transform -rotate-3 scale-105"></div>
+<div class="relative w-full h-full glass rounded-lg flex items-center justify-center">
+<div class="text-center">
+<h4 class="text-xl font-bold orbitron mb-2 text-primary">Voca Mechanica</h4>
+<p class="text-md neon-text-pink opacity-80">Thinking</p>
+<div class="mt-3 flex justify-center space-x-2">
+<div class="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
+<div class="w-3 h-3 rounded-full bg-secondary animate-pulse" style="animation-delay: 0.3s"></div>
+<div class="w-3 h-3 rounded-full bg-[#faff00] animate-pulse" style="animation-delay: 0.6s"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-2xl font-bold orbitron mb-2 neon-text-white">Voca Mechanica (Voice of the Machine)</h3>
+<p class="mb-4 opacity-80">
+Voca Mechanica is a upcoming project that uses Machine learning to find the car's defect based on the the problem sounds.
+</p>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 text-xs rounded-full bg-primary/20 text-primary">PYTHON</span>
+<span class="px-3 py-1 text-xs rounded-full bg-secondary/20 text-secondary">REACTJS</span>
+<span class="px-3 py-1 text-xs rounded-full bg-[#faff00]/20 text-[#faff00]">NEXTJS</span>
+<span class="px-3 py-1 text-xs rounded-full bg-primary/20 text-primary">ML</span>
+</div>
+<a href="https://github.com/Ericknoffi/Voca-Mechanica" target="_blank" class="inline-flex items-center text-[#faff00] hover:underline">
+View Project <i class="ri-arrow-right-line ml-1"></i>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills Section -->
+<section id="skills" class="py-24 relative overflow-hidden">
+<div class="absolute inset-0 grid-lines"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold orbitron mb-4">
+<span class="neon-text-white">My</span> Skills
+</h2>
+<p class="max-w-2xl mx-auto text-lg opacity-80">
+A comprehensive overview of my technical expertise and proficiency in various technologies.
+</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<!-- Frontend Skills -->
+<div class="glass rounded-lg p-6">
+<h3 class="text-2xl font-bold orbitron mb-6 neon-text-black">Frontend Development</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span>ReactJs</span>
+<span>50%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 50%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>JavaScript</span>
+<span>50%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 50%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>HTML</span>
+<span>50%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 50%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>css</span>
+<span>50%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 50%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex flex-wrap gap-3">
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-html5-line mr-1 text-primary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-css3-line mr-1 text-primary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-javascript-line mr-1 text-primary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-reactjs-line mr-1 text-primary"></i> 
+</div>
+</div>
+</div>
+<!-- Backend Skills -->
+<div class="glass rounded-lg p-6">
+<h3 class="text-2xl font-bold orbitron mb-6 neon-text-black">Backend Development</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span>JavaScript</span>
+<span>60%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-secondary to-[#faff00]" style="width: 60%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>Python</span>
+<span>50%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-secondary to-[#faff00]" style="width: 50%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>MongoDb</span>
+<span>50%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-secondary to-[#faff00]" style="width: 50%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>Docker</span>
+<span>50%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-secondary to-[#faff00]" style="width: 50%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>NodeJs</span>
+<span>40%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-secondary to-[#faff00]" style="width: 40%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex flex-wrap gap-3">
+<div class="skill-badge px-4 py-2 glass rounded-full border border-secondary/30 text-sm">
+<i class="ri-nodejs-line mr-1 text-secondary"></i>
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-secondary/30 text-sm">
+<i class="ri-python-line mr-1 text-secondary"></i>
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-secondary/30 text-sm">
+<i class="ri-database-2-line mr-1 text-secondary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-secondary/30 text-sm">
+<i class="ri-database-line mr-1 text-secondary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-secondary/30 text-sm">
+<i class="ri-server-line mr-1 text-secondary"></i> 
+</div>
+</div>
+</div>
+<!-- Networking Skills -->
+<div class="glass rounded-lg p-6">
+<h3 class="text-2xl font-bold orbitron mb-6 neon-text-black">Networking & Security</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span>Kali linux</span>
+<span>60%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 60%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>Port Scanning</span>
+<span>60%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 60%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>Encryption / Decryption</span>
+<span>60%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 60%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>CIpher</span>
+<span>60%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 60%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span>Brute Force</span>
+<span>60%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 60%"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex flex-wrap gap-3">
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-wifi-line mr-1 text-primary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-shield-check-line mr-1 text-primary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-lock-line mr-1 text-primary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-radar-line mr-1 text-primary"></i> 
+</div>
+<div class="skill-badge px-4 py-2 glass rounded-full border border-primary/30 text-sm hover-scale animate-pulse">
+<i class="ri-bug-line mr-1 text-primary"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section id="about" class="py-24 relative overflow-hidden">
+<div class="absolute inset-0 grid-lines"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold orbitron mb-4">
+<span class="text-[#faff00] neon-text-yellow">About</span> Me
+</h2>
+<p class="max-w-2xl mx-auto text-lg opacity-80">
+Get to know more about my background, experience, and passion for technology.
+</p>
+</div>
+<div class="flex flex-col md:flex-row gap-10">
+<div class="md:w-1/3">
+<div class="glass rounded-lg p-6 h-full">
+<div class="mb-6 relative">
+<div class="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-primary neon-border">
+<div class="w-full h-full bg-gradient-to-br from-primary/30 to-secondary/30 flex items-center justify-center">
+<i class="ri-user-3-line text-5xl text-white"></i>
+</div>
+</div>
+<div class="absolute -bottom-3 -right-3 w-12 h-12 rounded-full bg-secondary flex items-center justify-center neon-border-pink">
+<i class="ri-code-s-slash-line text-2xl"></i>
+</div>
+</div>
+<h3 class="text-2xl font-bold orbitron mb-2 text-center neon-text-white">Ashok</h3>
+<p class="text-center neon-text-yellow mb-4">Junior Developer</p>
+<div class="space-y-3">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full  flex items-center justify-center mr-3">
+<i class="ri-map-pin-line neon-text-white"></i>
+</div>
+<span>Mumbai, India</span>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full  flex items-center justify-center mr-3">
+<i class="ri-mail-line neon-text-white"></i>
+</div>
+<span>ashokramesh59@gmail.com</span>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full  flex items-center justify-center mr-3">
+<i class="ri-github-line neon-text-white"></i>
+</div>
+<span>github.com/Ericknoffi</span>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 rounded-full  flex items-center justify-center mr-3">
+<i class="ri-linkedin-line neon-text-white"></i>
+</div>
+<span>linkedin.com/in/ashokraj-ash999/
+</span>
+</div>
+</div>
+<div class="mt-6 pt-6 border-t neon-text-white">
+<h4 class="text-lg font-bold mb-3">Languages</h4>
+<div class="space-y-2">
+<div>
+<div class="flex justify-between mb-1">
+<span>Tamil</span>
+<span>Native</span>
+</div>
+<div class="progress-bar">
+  <div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 100%"></div>
+</div>
+
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span>English</span>
+<span>Fluent</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 100%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-1">
+<span>Hindi</span>
+<span>Fluent</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 100%"></div>
+</div>
+</div>
+</div>
+<div class="flex justify-between mb-1">
+<span>Marathi</span>
+<span>Beginner</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill bg-gradient-to-r from-primary to-secondary animate-shimmer" style="width: 30%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="md:w-2/3">
+<div class="glass rounded-lg p-6 h-full">
+<h3 class="text-2xl font-bold orbitron mb-6 text-secondary neon-text-pink">My Journey</h3>
+<div class="space-y-8">
+<p class="text-lg leading-relaxed">
+🎓 I'm currently pursuing a Bachelor's degree in Information Technology (B.E. IT)
+</p>
+<p class="text-lg leading-relaxed">
+ 💻 As a Learner , i jumped into various field such as Ethical Hacking, Networking, DevOps, machine Learning
+</p>
+<div>
+<h4 class="text-xl font-bold mb-4 text-primary">Education</h4>
+<div class="space-y-4">
+<div class="flex">
+<div class="w-1 bg-gradient-to-b from-primary to-secondary rounded-full mr-4"></div>
+<div>
+<h5 class="font-bold">Bachelor of Engineering in IT</h5>
+<p class="text-primary">Atharva college of engineering</p>
+<p class="opacity-70">2023-2027</p>
+<p class="mt-2 opacity-80">Currently Doing nothing !</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-4 text-primary">Technical Skills</h4>
+<div class="space-y-4">
+<div class="flex">
+<div class="w-1 bg-gradient-to-b from-[#faff00] to-primary rounded-full mr-4"></div>
+<div>
+<h5 class="font-bold">Programming Languages</h5>
+<p class="mt-2 opacity-80">Proficient in HTML, CSS, JavaScript, TypeScript, Python, C</p>
+</div>
+</div>
+<div class="flex">
+<div class="w-1 bg-gradient-to-b from-primary to-secondary rounded-full mr-4"></div>
+<div>
+<h5 class="font-bold">Core Computer Science</h5>
+<p class="mt-2 opacity-80">Strong foundation in networking, operating systems, data structures, and algorithms</p>
+</div>
+</div>
+<div class="flex">
+<div class="w-1 bg-gradient-to-b from-secondary to-[#faff00] rounded-full mr-4"></div>
+<div>
+<h5 class="font-bold">Web Technologies</h5>
+<p class="mt-2 opacity-80">Experience with modern web development</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h4 class="text-xl font-bold mb-4 text-primary">Interests</h4>
+<div class="flex flex-wrap gap-3">
+<div class="px-4 py-2 glass rounded-full border border-primary/30 text-sm">
+<i class="ri-robot-line mr-1 text-primary"></i> Artificial Intelligence
+</div>
+<div class="px-4 py-2 glass rounded-full border border-primary/30 text-sm">
+<i class="ri-ai-line mr-1 text-primary"></i> Prompt Engeneering
+</div>
+<div class="px-4 py-2 glass rounded-full border border-primary/30 text-sm">
+<i class="ri-gamepad-line mr-1 text-primary"></i> Gaming
+</div>
+<div class="px-4 py-2 glass rounded-full border border-primary/30 text-sm">
+<i class="ri-book-open-line mr-1 text-primary"></i> Nature Fact's
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Section -->
+<section id="contact" class="py-24 relative overflow-hidden">
+<div class="absolute inset-0 grid-lines"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="text-center mb-16">
+<h2 class="text-4xl md:text-5xl font-bold orbitron mb-4">
+<span class="neon-text-white">Get in</span> Touch
+</h2>
+<p class="max-w-2xl mx-auto text-lg opacity-80">
+Have a project in mind or just want to connect? Feel free to reach out!
+</p>
+</div>
+<div class="flex flex-col md:flex-row gap-10">
+<div class="md:w-1/2">
+<div class="glass rounded-lg p-6 h-full">
+<h3 class="text-2xl font-bold orbitron mb-6 text-secondary neon-text-pink">Contact Information</h3>
+<div class="space-y-6">
+<div class="flex items-center">
+<div class="w-12 h-12 rounded-full flex items-center justify-center mr-4">
+<i class="ri-mail-line text-2xl neon-text-white"></i>
+</div>
+<div>
+<p class="text-sm opacity-70">Email</p>
+<p class="font-medium">ashokramesh59@gmail.com</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-12 h-12 rounded-full flex items-center justify-center mr-4">
+<i class="ri-phone-line text-2xl neon-text-white"></i>
+</div>
+<div>
+<p class="text-sm opacity-70">Phone</p>
+<p class="font-medium">XXXXXXXXXX</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-12 h-12 rounded-full flex items-center justify-center mr-4">
+
+<i class="ri-map-pin-line text-2xl neon-text-white"></i>
+</div>
+<div>
+<p class="text-sm opacity-70">Location</p>
+<p class="font-medium">Mumbai, Maharashtra, India</p>
+</div>
+</div>
+</div>
+<div class="mt-10">
+<h4 class="text-xl font-bold mb-4">Connect with me</h4>
+<div class="flex space-x-4">
+<a href="https://github.com/Ericknoffi" target="_blank"
+  rel="noreferrer"
+  class="social-icon glass-purple w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+>
+<i class="ri-github-fill text-2xl"></i>
+</a>
+<a href="https://linkedin.com/in/ashokraj-ash999/"  target="_blank"
+  rel="noreferrer"
+  class="social-icon glass-purple w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+>
+<i class="ri-linkedin-fill text-2xl"></i>
+</a>
+<a href="https://x.com/AshLycan01"  target="_blank"
+  rel="noreferrer"
+  class="social-icon glass-purple w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300">
+<i class="ri-twitter-x-fill text-2xl"></i>
+</a>
+<a href="https://www.instagram.com/ericknoffi/"   target="_blank"
+  rel="noreferrer"
+  class="social-icon glass-purple w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
+>
+  <i class="ri-instagram-fill text-2xl"></i>
+</a>
+</div>
+</div>
+<div class="mt-10 pt-10 border-t border-white/10">
+<h4 class="text-xl font-bold mb-4">Current Availability</h4>
+<div class="flex items-center">
+<div class="w-3 h-3 rounded-full bg-green-500 mr-2 animate-pulse relative">
+  <div class="absolute inset-0 w-full h-full rounded-full bg-green-500 animate-ripple"></div>
+</div>
+<p>Available for freelance projects and collaborations</p>
+</div>
+<p class="mt-4 opacity-80">
+I'm currently open to new opportunities and exciting projects.
+Whether you need help with AI development, data visualization,
+or web applications, I'd love to hear from you!
+</p>
+</div>
+</div>
+</div>
+<div class="md:w-1/2">
+<div class="glass rounded-lg p-6 h-full">
+<h3 class="text-2xl font-bold orbitron mb-6 text-[#faff00] neon-text-yellow">Send Me a Message</h3>
+<form id="contact-form" class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label for="name" class="block mb-2 text-sm font-medium">Your Name</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+<i class="ri-user-line text-primary"></i>
+</div>
+<input type="text" id="name" class="w-full pl-10 pr-4 py-3 rounded border-none focus:ring-2 focus:ring-primary bg-white/5" placeholder="John Doe" required>
+</div>
+</div>
+<div>
+<label for="email" class="block mb-2 text-sm font-medium">Your Email</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+<i class="ri-mail-line text-primary"></i>
+</div>
+<input type="email" id="email" class="w-full pl-10 pr-4 py-3 rounded border-none focus:ring-2 focus:ring-primary bg-white/5" placeholder="john@example.com" required>
+</div>
+</div>
+</div>
+<div>
+<label for="subject" class="block mb-2 text-sm font-medium">Subject</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+<i class="ri-chat-1-line text-primary"></i>
+</div>
+<input type="text" id="subject" class="w-full pl-10 pr-4 py-3 rounded border-none focus:ring-2 focus:ring-primary bg-white/5" placeholder="Project Inquiry" required>
+</div>
+</div>
+<div>
+<label for="message" class="block mb-2 text-sm font-medium">Your Message</label>
+<div class="relative">
+<div class="absolute top-3 left-3 pointer-events-none">
+<i class="ri-message-3-line text-primary"></i>
+</div>
+<textarea id="message" rows="5" class="w-full pl-10 pr-4 py-3 rounded border-none focus:ring-2 focus:ring-primary bg-white/5" placeholder="Tell me about your project..." required></textarea>
+</div>
+</div>
+<div class="flex items-center">
+<input id="terms" type="checkbox" class="w-4 h-4 accent-primary bg-white/5 border-none" required>
+<label for="terms" class="ml-2 text-sm opacity-80">
+I agree to the processing of personal data
+</label>
+</div>
+<button type="submit" id="submit-btn" class="w-full px-6 py-4 neon-text-black font-bold orbitron rounded-button transition-all duration-300 hover:opacity-90 neon-border relative overflow-hidden whitespace-nowrap hover-scale animate-shimmer">
+Send Message
+<i class="ri-send-plane-line ml-2"></i>
+</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="py-10 relative overflow-hidden">
+<div class="absolute inset-0 grid-lines"></div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-center">
+<div class="mb-6 md:mb-0">
+<a href="#" class="text-2xl font-['Pacifico'] neon-text">Ashokraj</a>
+<p class="mt-2 opacity-70">© 2025 All Rights Reserved</p>
+</div>
+<div class="flex space-x-6">
+<a href="#home" class="text-white hover:text-primary transition-colors duration-300">Home</a>
+<a href="#projects" class="text-white hover:text-primary transition-colors duration-300">Projects</a>
+<a href="#skills" class="text-white hover:text-primary transition-colors duration-300">Skills</a>
+<a href="#about" class="text-white hover:text-primary transition-colors duration-300">About</a>
+<a href="#contact" class="text-white hover:text-primary transition-colors duration-300">Contact</a>
+</div>
+<div class="mt-6 md:mt-0">
+<p class="text-sm opacity-70">Made with <i class="ri-macbook-line text-secondary"></i> and code, fueled by <i class="ri-cup-fill text-secondary"></i></p>
+</div>
+</div>
+</div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Add animation classes to elements
+const animateElements = () => {
+const elements = document.querySelectorAll('.project-card, .glass, h1, h2, h3, p, .skill-badge, .social-icon');
+elements.forEach((el, index) => {
+const delay = (index % 5) * 100;
+el.style.animationDelay = `${delay}ms`;
+if (el.classList.contains('project-card') || el.classList.contains('glass')) {
+el.classList.add('animate-scale-in');
+} else if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3') {
+el.classList.add('animate-fade-in-up');
+} else if (el.classList.contains('skill-badge') || el.classList.contains('social-icon')) {
+el.classList.add('animate-fade-in-right');
+} else {
+el.classList.add('animate-fade-in-left');
+}
+});
+};
+// Initialize animations when elements come into view
+const observerOptions1 = {
+threshold: 0.1,
+rootMargin: '0px 0px -50px 0px'
+};
+const observer1 = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+const elements = entry.target.querySelectorAll('.project-card, .glass, h1, h2, h3, p, .skill-badge, .social-icon');
+elements.forEach((el, index) => {
+setTimeout(() => {
+el.style.opacity = '1';
+el.style.transform = 'none';
+}, index * 100);
+});
+observer1.unobserve(entry.target);
+}
+});
+}, observerOptions1);
+document.querySelectorAll('section').forEach(section => {
+observer1.observe(section);
+});
+// Initial animation for visible elements
+animateElements();
+// Initialize animations
+function initAnimations() {
+const animatedElements = document.querySelectorAll('.project-card, .skill-badge, .progress-bar');
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+if (entry.target.classList.contains('progress-bar')) {
+const progressFill = entry.target.querySelector('.progress-fill');
+const width = progressFill.style.width;
+entry.target.style.setProperty('--progress-width', width);
+entry.target.classList.add('animate');
+} else {
+entry.target.classList.add('animate');
+}
+observer.unobserve(entry.target);
+}
+});
+}, {
+threshold: 0.2
+});
+animatedElements.forEach(el => observer.observe(el));
+}
+// Add animation classes to sections
+document.querySelectorAll('section').forEach((section, index) => {
+if (index % 2 === 0) {
+section.classList.add('animate-slideInLeft');
+} else {
+section.classList.add('animate-slideInRight');
+}
+});
+// Initialize animations
+initAnimations();
+// Custom cursor
+// const cursor = document.createElement('div');
+// cursor.classList.add('custom-cursor');
+// document.body.appendChild(cursor);
+// const cursorTrail = document.createElement('div');
+// cursorTrail.classList.add('cursor-trail');
+// document.body.appendChild(cursorTrail);
+// document.addEventListener('mousemove', function(e) {
+// cursor.style.left = e.clientX + 'px';
+// cursor.style.top = e.clientY + 'px';
+// setTimeout(() => {
+// cursorTrail.style.left = e.clientX + 'px';
+// cursorTrail.style.top = e.clientY + 'px';
+// }, 100);
+// });
+// document.addEventListener('mousedown', function() {
+// cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+// cursor.style.backgroundColor = 'rgba(255, 0, 247, 0.5)';
+// });
+// document.addEventListener('mouseup', function() {
+// cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+// cursor.style.backgroundColor = 'rgba(0, 255, 242, 0.5)';
+// Mobile menu toggle
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', function() {
+this.classList.toggle('open');
+mobileMenu.classList.toggle('hidden');
+});
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function(e) {
+e.preventDefault();
+const targetId = this.getAttribute('href');
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+window.scrollTo({
+top: targetElement.offsetTop - 80,
+behavior: 'smooth'
+});
+// Close mobile menu if open
+if (!mobileMenu.classList.contains('hidden')) {
+hamburger.classList.remove('open');
+mobileMenu.classList.add('hidden');
+}
+}
+});
+});
+// Button click particle effect
+const submitBtn = document.getElementById('submit-btn');
+if (submitBtn) {
+submitBtn.addEventListener('click', function(e) {
+// Prevent default only if form validation passes
+const form = document.getElementById('contact-form');
+if (!form.checkValidity()) {
+return;
+}
+e.preventDefault();
+// Create particles
+for (let i = 0; i < 20; i++) {
+createParticle(e.clientX, e.clientY);
+}
+// Show success message
+alert('Message sent successfully! I will get back to you soon.');
+form.reset();
+});
+}
+function createParticle(x, y) {
+const particle = document.createElement('div');
+particle.classList.add('particle');
+// Random position around the click
+const destinationX = x + (Math.random() - 0.5) * 100;
+const destinationY = y + (Math.random() - 0.5) * 100;
+// Random size
+const size = Math.floor(Math.random() * 10 + 5);
+particle.style.width = `${size}px`;
+particle.style.height = `${size}px`;
+// Random color
+const colors = ['#00fff2', '#ff00f7', '#faff00'];
+particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+// Set initial position
+particle.style.left = `${x}px`;
+particle.style.top = `${y}px`;
+document.body.appendChild(particle);
+// Animate to destination
+setTimeout(() => {
+particle.style.transform = `translate(${destinationX - x}px, ${destinationY - y}px)`;
+// Remove particle after animation
+setTimeout(() => {
+particle.remove();
+}, 2000);
+}, 10);
+}
+// Three.js background animation
+const canvasContainer = document.getElementById('canvas-container');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x000000, 0);
+canvasContainer.appendChild(renderer.domElement);
+// Create particles
+const particlesGeometry = new THREE.BufferGeometry();
+const particlesCount = 1000;
+const posArray = new Float32Array(particlesCount * 3);
+for (let i = 0; i < particlesCount * 3; i++) {
+posArray[i] = (Math.random() - 0.5) * 10;
+}
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+// Materials
+const particlesMaterial = new THREE.PointsMaterial({
+  size: 0.025,
+  color: 0xb99bff, // soft purple
+  transparent: true,
+  opacity: 0.65
+});
+// Mesh
+const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+scene.add(particlesMesh);
+// Add grid
+//const gridHelper = new THREE.GridHelper(20, 20, 0x00fff2, 0x00fff2);
+//gridHelper.material.opacity = 0.1;
+//gridHelper.material.transparent = true;
+//scene.add(gridHelper);
+camera.position.z = 5;
+// Animation
+function animate() {
+requestAnimationFrame(animate);
+particlesMesh.rotation.x += 0.0005;
+particlesMesh.rotation.y += 0.0005;
+renderer.render(scene, camera);
+}
+animate();
+// Handle window resize
+window.addEventListener('resize', function() {
+camera.aspect = window.innerWidth / window.innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(window.innerWidth, window.innerHeight);
+});
+// Scroll animations
+const observerOptions = {
+root: null,
+rootMargin: '0px',
+threshold: 0.1
+};
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+entry.target.classList.add('animate-fade-in');
+observer.unobserve(entry.target);
+}
+});
+}, observerOptions);
+document.querySelectorAll('.project-card, .glass').forEach(el => {
+observer.observe(el);
+});
+});
+</script>
+</body>
+
+</html>
